@@ -1,0 +1,112 @@
+#morpion {
+    display: flex;
+    flex-direction: row;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 50vh;
+    height: 50vh;
+    max-width: 300px;
+    max-height: 300px;
+    
+    border: 1px solid black;
+
+    box-shadow: 5px 5px 20px 5px #00000080;
+}
+
+#morpion .column {
+    display: flex;
+    flex-direction: column;
+    
+    flex-basis: 100%;
+
+}
+
+#morpion .column > div {
+    border: 1px solid black;
+    
+    flex-basis: 100%;
+}
+
+#morpion .column > div.win {
+    background: rgba(35, 209, 35, 0.493);
+}
+
+@keyframes forbidCel {
+    100% {
+        cursor: not-allowed;
+    }
+}
+
+#morpion .column > div.played {
+    animation: forbidCel infinite 3s;
+}
+
+#morpion.game-finished .column > div {
+    cursor: not-allowed;
+}
+
+#morpion .column > div.preview > * {
+    opacity: 0.25;
+}
+
+.circle span {
+    display: block;
+    width: 70%;
+    height: 70%;
+    border-radius: 50%;
+    border: 3px solid black;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.cross span {
+    display: block;
+    width: 70%;
+    height: 3px;
+    background: black;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+.cross span:first-child {
+    transform: translate(-50%, calc(-50% + 2px)) rotate(-45deg);
+}
+
+#play-again {
+    background: none;
+    border: 1px solid black;
+    border-radius: 0.5em;
+    font-family: Arial;
+    cursor: pointer;
+    position: absolute;
+    left: 50%;
+    bottom: 3vh;
+    transform: translateX(-50%);
+    padding: 0.5em 1em;
+    font-size: 0.9em;
+}
+
+#play-again:hover {
+    background: #00000020;
+}
+
+@keyframes highlighting {
+    0%, 100% {
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        transform: translateX(-50%) scale(2);
+    }
+}
+    
+#play-again.highlight {
+    animation: 1s ease-in-out infinite highlighting;
+    animation-iteration-count: 3;
+}
