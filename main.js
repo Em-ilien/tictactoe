@@ -1,4 +1,4 @@
-let whoHaveToPlayIsJ1 = true;
+let j1HaveToPlay = true;
 
 let tictactoe = document.querySelector(".tictactoe");
 let columns = tictactoe.querySelectorAll(".column");
@@ -72,7 +72,7 @@ function checkIfAllCellsAreFilled() {
 }
 
 function changeTheTurn() {
-    whoHaveToPlayIsJ1 = !whoHaveToPlayIsJ1;
+    j1HaveToPlay = !j1HaveToPlay;
 }
 
 function playOn(cell, playAsTheOtherPlayer = false) {
@@ -94,8 +94,6 @@ function playOn(cell, playAsTheOtherPlayer = false) {
         playAgainButton.classList.add("highlight");
     }
 
-    changeTheTurn();
-
     if (IS_ONLINE && !playAsTheOtherPlayer) {
         notifyServer(cell);
     }
@@ -106,7 +104,7 @@ function checkIfTheGameIsFinished() {
 }
 
 function showPreview(cell) {
-    if (whoHaveToPlayIsJ1) {
+    if (j1HaveToPlay) {
         cell.classList.add("circle");
         cell.innerHTML = "<span></span>";
     } else {
@@ -124,6 +122,22 @@ function hidePreview(cell) {
     cell.classList.remove("preview");
 }
 
+function relaunchGame() {
+    cells.forEach(cell => {
+        cell.classList.remove("circle");
+        cell.classList.remove("cross");
+        cell.classList.remove("played");
+        cell.classList.remove("preview");
+        cell.innerHTML = "";
+        cell.classList.remove("win");
+    });
+
+    tictactoe.classList.remove("game-finished");
+    playAgainButton.classList.remove("highlight");
+
+    j1HaveToPlay = true;
+}
+
 
 cells.forEach(cell => {
     cell.addEventListener("click", () => {
@@ -139,6 +153,8 @@ cells.forEach(cell => {
         }        
 
         playOn(cell);
+
+        changeTheTurn();
     });
 
     cell.addEventListener("mouseenter", () => {
@@ -164,15 +180,10 @@ cells.forEach(cell => {
 });
 
 playAgainButton.addEventListener("click", () => {
-    cells.forEach(cell => {
-        cell.classList.remove("circle");
-        cell.classList.remove("cross");
-        cell.classList.remove("played");
-        cell.classList.remove("preview");
-        cell.innerHTML = "";
-        cell.classList.remove("win");
-    });
+    if (IS_ONLINE) {
+        sendInvitationToTheOtherPlayerToPlayAgain();
+        return;
+    }
 
-    tictactoe.classList.remove("game-finished");
-    playAgainButton.classList.remove("highlight");
+    relaunchGame();
 });

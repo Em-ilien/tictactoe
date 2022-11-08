@@ -79,6 +79,33 @@ function getCellsPlayedOnJsonFile($code) {
     }
 
     return $cells_id;
+}
 
-    // return $data["codes"][$code]["cells_played"];
+function setInvitationOnJsonFileFrom($player, $code) {
+    $data = json_decode(file_get_contents(dirname(__FILE__) . "\..\..\data.json"), true);
+    $data["codes"][$code]["invitation"] = $player;
+    file_put_contents(dirname(__FILE__) . "\..\..\data.json", json_encode($data));
+}
+
+function jsonFileContainsInvitationToPlayAgainFor($player, $code) {
+    $data = json_decode(file_get_contents(dirname(__FILE__) . "\..\..\data.json"), true);
+
+    if (!isset($data["codes"][$code]["invitation"])) {
+        return false;
+    }
+
+    return $data["codes"][$code]["invitation"] != $player;
+}
+
+function acceptInvitationToPlayAgain($player, $code) {
+    $data = json_decode(file_get_contents(dirname(__FILE__) . "\..\..\data.json"), true);
+    $data["codes"][$code]["invitation"] = ["j1", "j2"];
+    file_put_contents(dirname(__FILE__) . "\..\..\data.json", json_encode($data));
+}
+
+function resetGameOnJsonFile($code) {
+    $data = json_decode(file_get_contents(dirname(__FILE__) . "\..\..\data.json"), true);
+    unset($data["codes"][$code]["cells_played"]);
+    unset($data["codes"][$code]["invitation"]);
+    file_put_contents(dirname(__FILE__) . "\..\..\data.json", json_encode($data));
 }
