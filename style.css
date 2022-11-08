@@ -1,4 +1,4 @@
-#morpion {
+.tictactoe {
     display: flex;
     flex-direction: row;
 
@@ -17,7 +17,7 @@
     box-shadow: 5px 5px 20px 5px #00000080;
 }
 
-#morpion .column {
+.tictactoe .column {
     display: flex;
     flex-direction: column;
     
@@ -25,13 +25,13 @@
 
 }
 
-#morpion .column > div {
+.tictactoe .column > div {
     border: 1px solid black;
     
     flex-basis: 100%;
 }
 
-#morpion .column > div.win {
+.tictactoe .column > div.win {
     background: rgba(35, 209, 35, 0.493);
 }
 
@@ -41,15 +41,15 @@
     }
 }
 
-#morpion .column > div.played {
+.tictactoe .column > div.played {
     animation: forbidCel infinite 3s;
 }
 
-#morpion.game-finished .column > div {
+.tictactoe.game-finished .column > div {
     cursor: not-allowed;
 }
 
-#morpion .column > div.preview > * {
+.tictactoe .column > div.preview > * {
     opacity: 0.25;
 }
 

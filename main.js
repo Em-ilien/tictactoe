@@ -1,13 +1,15 @@
 let whoHaveToPlayIsJ1 = true;
 
-let morpion = document.getElementById("morpion");
-let columns = morpion.querySelectorAll(".column");
-let cells = morpion.querySelectorAll(".column > div");
+let tictactoe = document.querySelector(".tictactoe");
+let columns = tictactoe.querySelectorAll(".column");
+let cells = tictactoe.querySelectorAll(".column > div");
 let rows = [
     [cells[0], cells[3], cells[6]],
     [cells[1], cells[4], cells[7]],
     [cells[2], cells[5], cells[8]]
 ];
+
+const IS_ONLINE = tictactoe.classList.contains("online");
 
 let playAgainButton = document.getElementById("play-again");
 
@@ -16,13 +18,6 @@ function showWinner(cell1, cell2, cell3) {
     cell1.classList.add("win");
     cell2.classList.add("win");
     cell3.classList.add("win");
-}
-
-function playOn(cell) {
-    cell.classList.remove("preview");
-    cell.classList.add("played");
-
-    whoHaveToPlayIsJ1 = !whoHaveToPlayIsJ1;
 }
 
 function cellsAreSameType(cell1, cell2, cell3) {
@@ -66,10 +61,6 @@ function checkIfWeHaveAWinner() {
     return false;
 }
 
-function checkIfTheGameIsFinished() {
-    return morpion.classList.contains("game-finished");
-}
-
 function checkIfAllCellsAreFilled() {
     for (const cell of cells) {
         if (!cell.classList.contains("played")) {
@@ -78,6 +69,40 @@ function checkIfAllCellsAreFilled() {
     }
 
     return true;
+}
+
+function changeTheTurn() {
+    whoHaveToPlayIsJ1 = !whoHaveToPlayIsJ1;
+}
+
+function playOn(cell, playAsTheOtherPlayer = false) {
+    cell.classList.remove("preview");
+    cell.classList.add("played");
+
+    if (IS_ONLINE && playAsTheOtherPlayer) {
+        if (IS_J1) {
+            cell.classList.add("cross");
+            cell.innerHTML = "<span></span><span></span>";
+        } else {
+            cell.classList.add("circle");
+            cell.innerHTML = "<span></span>";
+        }        
+    }
+
+    if (checkIfWeHaveAWinner() || checkIfAllCellsAreFilled()) {
+        tictactoe.classList.add("game-finished");
+        playAgainButton.classList.add("highlight");
+    }
+
+    changeTheTurn();
+
+    if (IS_ONLINE && !playAsTheOtherPlayer) {
+        notifyServer(cell);
+    }
+}
+
+function checkIfTheGameIsFinished() {
+    return tictactoe.classList.contains("game-finished");
 }
 
 function showPreview(cell) {
@@ -109,12 +134,11 @@ cells.forEach(cell => {
             return;
         }
 
-        playOn(cell);
+        if (IS_ONLINE && !itsToMeToPlay()) {
+            return;
+        }        
 
-        if (checkIfWeHaveAWinner() || checkIfAllCellsAreFilled()) {
-            morpion.classList.add("game-finished");
-            playAgainButton.classList.add("highlight");
-        }
+        playOn(cell);
     });
 
     cell.addEventListener("mouseenter", () => {
@@ -123,6 +147,10 @@ cells.forEach(cell => {
 
         if (cell.classList.contains("played"))
             return;
+
+        if (IS_ONLINE && !itsToMeToPlay()) {
+            return;
+        }
 
         showPreview(cell);
     });
@@ -145,6 +173,6 @@ playAgainButton.addEventListener("click", () => {
         cell.classList.remove("win");
     });
 
-    morpion.classList.remove("game-finished");
+    tictactoe.classList.remove("game-finished");
     playAgainButton.classList.remove("highlight");
 });
