@@ -69,7 +69,7 @@ if ($_GET["game"] == "online") {
     <title>Morpion</title>
 </head>
 <body>
-    <div class="tictactoe <?=($isOnline ? 'online ' . ($isPlayer1 ? "j1" : "j2") : 'offline')?>" id="<?=$code?>">
+    <div class="tictactoe <?=($isOnline ? 'online ' . ($isPlayer1 ? "j1" : "j2") : 'offline')?>"<?=($isOnline ? ' id="' . $code . '"' : "")?>>
         <div class="column">
             <div id="1" class="c1"></div>
             <div id="2" class="c2"></div>
