@@ -156,6 +156,9 @@ function relaunchGame() {
     playAgainButton.parentElement.classList.remove("show");
 
     j1HaveToPlay = true;
+
+    if (IS_ONLINE)
+        otherPlayerInvitedToPlayAgain = false;
 }
 
 
