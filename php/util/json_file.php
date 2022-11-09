@@ -116,6 +116,11 @@ function acceptInvitationToPlayAgain($player, $code) {
 function resetGameOnJsonFile($code) {
     $data = json_decode(file_get_contents(dirname(__FILE__) . getPath()), true);
     unset($data["codes"][$code]["cells_played"]);
+    file_put_contents(dirname(__FILE__) . getPath(), json_encode($data));
+}
+
+function resetInvitationsGameOnJsonFile($code) {
+    $data = json_decode(file_get_contents(dirname(__FILE__) . getPath()), true);
     unset($data["codes"][$code]["invitation"]);
     file_put_contents(dirname(__FILE__) . getPath(), json_encode($data));
 }
