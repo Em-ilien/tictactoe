@@ -79,18 +79,28 @@ function changeTheTurn() {
 }
 
 function playOn(cell, playAsTheOtherPlayer = false) {
+    if (IS_ONLINE) {
+        if (playAsTheOtherPlayer) {
+            if (IS_J1) {
+                cell.classList.add("cross");
+                cell.innerHTML = "<span></span><span></span>";
+            } else {
+                cell.classList.add("circle");
+                cell.innerHTML = "<span></span>";
+            }
+        } else {
+            if (IS_J1) {
+                cell.classList.add("circle");
+                cell.innerHTML = "<span></span>";
+            } else {
+                cell.classList.add("cross");
+                cell.innerHTML = "<span></span><span></span>";
+            }
+        }
+    }
+
     cell.classList.remove("preview");
     cell.classList.add("played");
-
-    if (IS_ONLINE && playAsTheOtherPlayer) {
-        if (IS_J1) {
-            cell.classList.add("cross");
-            cell.innerHTML = "<span></span><span></span>";
-        } else {
-            cell.classList.add("circle");
-            cell.innerHTML = "<span></span>";
-        }        
-    }
 
     if (checkIfWeHaveAWinner() || checkIfAllCellsAreFilled()) {
         tictactoe.classList.add("game-finished");
