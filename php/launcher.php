@@ -73,13 +73,14 @@ session_destroy();
 </head>
 <body>
     <div class="ctn">
-        <div class="choice" onclick="document.location='.?game=online'">
+        <div class="choice" onclick="document.location='index.php?game=online'">
             <h1>2 joueurs distants</h1>
             <div class="img-ctn">
                 <img src="img/online.png" alt="Illustration en ligne">
             </div>
+            <p style="background: white; width: fit-content; font-size: 1.25em; padding: 0 0.5em; color: red;">En développement</p>
         </div>
-        <div class="choice" onclick="document.location='.?game=offline'">
+        <div class="choice" onclick="document.location='index.php?game=offline'">
             <h1>2 joueurs 1 écran</h1>
             <div class="img-ctn">
                 <img src="img/offline.png" alt="Illustration hors-ligne">

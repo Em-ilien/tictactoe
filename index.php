@@ -20,7 +20,7 @@ if (!isset($_GET["game"])) {
 
 if ($_GET["game"] == "online") {
     if (!isset($_GET["code"])) {
-        header("Location: .?game=online&code=" . generateCode());
+        header("Location: index.php?game=online&code=" . generateCode());
         die();
     }
 
@@ -69,25 +69,29 @@ if ($_GET["game"] == "online") {
     <title>Morpion</title>
 </head>
 <body>
-    <div class="tictactoe <?=($isOnline ? 'online ' . ($isPlayer1 ? "j1" : "j2") : 'offline')?>"<?=($isOnline ? ' id="' . $code . '"' : "")?>>
-        <div class="column">
-            <div id="1" class="c1"></div>
-            <div id="2" class="c2"></div>
-            <div id="3" class="c3"></div>
+    <div class="ctn">
+        <div class="tictactoe <?=($isOnline ? 'online ' . ($isPlayer1 ? "j1" : "j2") : 'offline')?>"<?=($isOnline ? ' id="' . $code . '"' : "")?>>
+            <div class="column">
+                <div id="1" class="c1"></div>
+                <div id="2" class="c2"></div>
+                <div id="3" class="c3"></div>
+            </div>
+            <div class="column">
+                <div id="4" class="c1"></div>
+                <div id="5" class="c2"></div>
+                <div id="6" class="c3"></div>
+            </div>
+            <div class="column">
+                <div id="7" class="c1"></div>
+                <div id="8" class="c2"></div>
+                <div id="9" class="c3"></div>
+            </div>
         </div>
-        <div class="column">
-            <div id="4" class="c1"></div>
-            <div id="5" class="c2"></div>
-            <div id="6" class="c3"></div>
-        </div>
-        <div class="column">
-            <div id="7" class="c1"></div>
-            <div id="8" class="c2"></div>
-            <div id="9" class="c3"></div>
+
+        <div class="btn-ctn">
+            <button id="play-again">Jouer encore</button>
         </div>
     </div>
-
-    <button id="play-again">Jouer encore</button>
 
     <script src="main.js"></script>
     <?=($isOnline ? '<script src="online.js"></script>' : '')?>

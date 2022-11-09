@@ -14,7 +14,7 @@ const IS_ONLINE = tictactoe.classList.contains("online");
 let playAgainButton = document.getElementById("play-again");
 
 
-function showWinner(cell1, cell2, cell3) {
+function showWinningCombinaison(cell1, cell2, cell3) {
     cell1.classList.add("win");
     cell2.classList.add("win");
     cell3.classList.add("win");
@@ -30,7 +30,7 @@ function cellsAreSameType(cell1, cell2, cell3) {
     }
 
     if (type1 == type2 && type2 == type3) {
-        showWinner(cell1, cell2, cell3);
+        showWinningCombinaison(cell1, cell2, cell3);
         return true;
     }
 
@@ -38,27 +38,30 @@ function cellsAreSameType(cell1, cell2, cell3) {
 }
 
 function checkIfWeHaveAWinner() {
+    let win = false;    //this variable allow to show multiple winning rows/columns/diagonals if there are multiple
+    //so we don't return the first one we find
+
     for (const column of columns) {
         if (cellsAreSameType(column.children[0], column.children[1], column.children[2])) {
-            return true;
+            win = true;
         }
     }
 
     for (const row of rows) {
         if (cellsAreSameType(row[0], row[1], row[2])) {
-            return true;
+            win = true;
         }
     }
 
     if (cellsAreSameType(cells[0], cells[4], cells[8])) {
-        return true;
+        win = true;
     }
 
     if (cellsAreSameType(cells[2], cells[4], cells[6])) {
-        return true;
+        win = true;
     }
 
-    return false;
+    return win;
 }
 
 function checkIfAllCellsAreFilled() {
@@ -91,7 +94,13 @@ function playOn(cell, playAsTheOtherPlayer = false) {
 
     if (checkIfWeHaveAWinner() || checkIfAllCellsAreFilled()) {
         tictactoe.classList.add("game-finished");
-        playAgainButton.classList.add("highlight");
+
+        setTimeout(() => {
+            playAgainButton.parentElement.classList.add("show");
+            setTimeout(() => {
+                playAgainButton.classList.add("highlight");
+            }, 1000);
+        }, 1000/2);
     }
 
     if (IS_ONLINE && !playAsTheOtherPlayer) {
@@ -134,6 +143,7 @@ function relaunchGame() {
 
     tictactoe.classList.remove("game-finished");
     playAgainButton.classList.remove("highlight");
+    playAgainButton.parentElement.classList.remove("show");
 
     j1HaveToPlay = true;
 }
