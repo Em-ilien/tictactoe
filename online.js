@@ -1,5 +1,6 @@
 const IS_J1 = tictactoe.classList.contains("j1");
-let otherPlayerInvitedToPlayAgain = false;
+let otherPlayerIsInvitedToPlayAgain = false;
+let otherPlayerInvitedMeToPlayAgain = false;
 
 
 function itsToMeToPlay() {
@@ -71,16 +72,25 @@ function showInvitationWindowToPlayAgain() {
 }
 
 function closeWindow() {
-    document.querySelector(".invitation-window").remove();
-    document.querySelector(".wall").remove();
+    let window = document.querySelector(".invitation-window");
+    let wall = document.querySelector(".wall");
+
+    if (window)
+        window.remove();
+        
+    if (wall)
+        wall.remove();
 }
 
 function refreshInvitationToPlayAgain() {
     if (!checkIfTheGameIsFinished())
         return;
 
+    if (otherPlayerInvitedMeToPlayAgain)
+        return;
+
     const data = new FormData();
-    data.append("otherPlayerInvited", otherPlayerInvitedToPlayAgain);
+    data.append("otherPlayerIsInvitedToPlayAgain", otherPlayerIsInvitedToPlayAgain);
 
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "php/ajax/get_invitation_to_play_again.php", true);
@@ -88,8 +98,14 @@ function refreshInvitationToPlayAgain() {
     xhr.onload = () => {
         if (xhr.response.status == "success") {
             console.log(xhr.response);
-            if (xhr.response.theOtherPlayerInvitedMe && otherPlayerInvitedToPlayAgain) {
-                relaunchGame();
+            if (xhr.response.otherPlayerInvitedMeToPlayAgain) {
+                if (otherPlayerIsInvitedToPlayAgain) {
+                    relaunchGame();
+                    return;
+                }
+
+                showInvitationWindowToPlayAgain();
+                otherPlayerInvitedMeToPlayAgain = true;
             }
         }
     }
@@ -100,7 +116,7 @@ function sendInvitationToTheOtherPlayerToPlayAgain() {
     if (!checkIfTheGameIsFinished())
         return;
 
-    otherPlayerInvitedToPlayAgain = true;
+    otherPlayerIsInvitedToPlayAgain = true;
 
     let xhr = new XMLHttpRequest();
     xhr.open("GET", "php/ajax/send_invitation_to_play_again.php", true);
@@ -108,7 +124,7 @@ function sendInvitationToTheOtherPlayerToPlayAgain() {
     xhr.onload = () => {
         if (xhr.response.status == "success") {
             console.log(xhr.response);
-            if (xhr.response.theOtherPlayerInvitedMe) {
+            if (xhr.response.otherPlayerInvitedMeToPlayAgain) {
                 relaunchGame();
             }
         }

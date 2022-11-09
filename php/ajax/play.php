@@ -42,4 +42,8 @@ if (getPlayerWhoHasToPlay($code, $player) != $player) {
 
 addCellPlayedOnJsonFile($code, $cell_id, $player);
 
+if (jsonFileContainsInvitationToPlayAgainFor("j1", $code) && jsonFileContainsInvitationToPlayAgainFor("j2", $code)) {
+    resetInvitationsGameOnJsonFile($code);
+}
+
 echo json_encode(["status" => "success"]);

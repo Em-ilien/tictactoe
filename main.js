@@ -157,8 +157,11 @@ function relaunchGame() {
 
     j1HaveToPlay = true;
 
-    if (IS_ONLINE)
-        otherPlayerInvitedToPlayAgain = false;
+    if (IS_ONLINE) {
+        otherPlayerIsInvitedToPlayAgain = false;
+        otherPlayerInvitedMeToPlayAgain = false;
+        closeWindow();
+    }
 }
 
 

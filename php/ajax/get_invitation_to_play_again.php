@@ -15,7 +15,7 @@ if (!isset($_SESSION["code"])) {
     die();
 }
 
-if (!isset($_POST["otherPlayerInvited"])) {
+if (!isset($_POST["otherPlayerIsInvitedToPlayAgain"])) {
     echo json_encode(["status" => "error", "error" => "You must specify if the other player is invited"]);
     die();
 }
@@ -23,8 +23,8 @@ if (!isset($_POST["otherPlayerInvited"])) {
 
 $player = $_SESSION["player"];
 $code = $_SESSION["code"];
-$theOtherPlayerIsInvited = $_POST["otherPlayerInvited"];
-$theOtherPlayerIsInvited = $theOtherPlayerIsInvited == "true" ? true : false;
+$otherPlayerIsInvitedToPlayAgain = $_POST["otherPlayerIsInvitedToPlayAgain"];
+$otherPlayerIsInvitedToPlayAgain = $otherPlayerIsInvitedToPlayAgain == "true" ? true : false;
 
 
 if (!jsonFileContainsCode($code)) {
@@ -36,13 +36,13 @@ if (!jsonFileContainsCode($code)) {
 
 if (!jsonFileContainsInvitationToPlayAgainFor($player, $code)) {
     echo json_encode(["status" => "success",
-        "theOtherPlayerInvitedMe" => false, "theOtherPlayerIsInvited" => $theOtherPlayerIsInvited]);
+        "otherPlayerInvitedMeToPlayAgain" => false, "otherPlayerIsInvitedToPlayAgain" => $otherPlayerIsInvitedToPlayAgain]);
     die();
 }
 
-if ($theOtherPlayerIsInvited) {
+if ($otherPlayerIsInvitedToPlayAgain) {
     resetGameOnJsonFile($code);
 }
 
 echo json_encode(["status" => "success",
-    "theOtherPlayerInvitedMe" => true, "theOtherPlayerIsInvited" => $theOtherPlayerIsInvited]);
+    "otherPlayerInvitedMeToPlayAgain" => true, "otherPlayerIsInvitedToPlayAgain" => $otherPlayerIsInvitedToPlayAgain]);

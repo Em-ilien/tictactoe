@@ -29,10 +29,10 @@ if (!jsonFileContainsCode($code)) {
 
 if (jsonFileContainsInvitationToPlayAgainFor($player, $code)) {
     acceptInvitationToPlayAgain($player, $code);
-    echo json_encode(["status" => "success", "theOtherPlayerInvitedMe" => true, "theOtherPlayerIsInvited" => true]);
+    echo json_encode(["status" => "success", "otherPlayerInvitedMeToPlayAgain" => true, "otherPlayerIsInvitedToPlayAgain" => true]);
     die();
 }
 
 setInvitationOnJsonFileFrom($player, $code);
 
-echo json_encode(["status" => "success", "theOtherPlayerInvitedMe" => false, "theOtherPlayerIsInvited" => true]);
+echo json_encode(["status" => "success", "otherPlayerInvitedMeToPlayAgain" => false, "otherPlayerIsInvitedToPlayAgain" => true]);
